@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 297d5d3010fe1224095f1190ddeb6ce5, type: 3}
+  m_Name: Visual10
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  CardId: 63
+  Representation: 3
+  Value: 0.6
+  Attack: 200
+  CardSprite: {fileID: -2472433928840911761, guid: ce6c4b7b1aa0c6b43a3ad4a47a5771f7, type: 3}

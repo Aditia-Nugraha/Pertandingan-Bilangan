@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 297d5d3010fe1224095f1190ddeb6ce5, type: 3}
+  m_Name: Fraction09
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  CardId: 8
+  Representation: 0
+  Value: 0.5
+  Attack: 300
+  CardSprite: {fileID: -8715899664282910752, guid: 1ba29c260f12cb0408655c6ceac9412f, type: 3}
