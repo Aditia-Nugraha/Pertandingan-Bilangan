@@ -67,8 +67,23 @@ public class SelectedCardDisplay : MonoBehaviour
         Refresh();
     }
 
+    public void HideImage()
+    {
+        _cardDisplay.HideImage();
+    }
+
+    public void ShowImage()
+    {
+        _cardDisplay.ShowImage();
+    }
+
     public void Clear()
     {
         _cardDisplay.ClearCard();
+    }
+
+    public RectTransform GetSlotTransform()
+    {
+        return _cardDisplay.GetComponent<RectTransform>();
     }
 }

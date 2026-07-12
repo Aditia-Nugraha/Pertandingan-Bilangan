@@ -6,13 +6,10 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private PlayerContext _player1;
     [SerializeField] private PlayerContext _player2;
 
-    [Header("Round")]
+    [Header("References")]
+    [SerializeField] private GameplayStateManager _stateManager;
+    [SerializeField] private BattleResultPanel _battleResultPanel;
     [SerializeField] private RoundManager _roundManager;
-    
-    [Header("Result Panel")]
-    [SerializeField] private ResultPanel _resultPanel;
-
-    [Header("Message Display")]
     [SerializeField] private GameplayMessageDisplay _messageDisplay;
 
     private BattleResultData _lastBattleResult = new();
@@ -20,6 +17,11 @@ public class BattleManager : MonoBehaviour
 
     public void StartBattle()
     {
+        if (_stateManager.CurrentState == GameplayState.Busy)
+        {
+            return;
+        }
+
         if (!_player1.HandManager.HasSelectedCard())
         {
             _messageDisplay.Show(GameplayMessage.Player1ChoseCard);
@@ -35,7 +37,7 @@ public class BattleManager : MonoBehaviour
         _player1.SelectedCardDisplay.Reveal();
         _player2.SelectedCardDisplay.Reveal();
         BattleResultData result = ResolveBattle();
-        _resultPanel.Show();
+        _battleResultPanel.Show();
     }
 
     private BattleResultData ResolveBattle()

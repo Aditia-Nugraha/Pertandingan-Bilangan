@@ -6,63 +6,48 @@ public class GameplayMessageDisplay : MonoBehaviour
 {
     [SerializeField] private TMP_Text _messageTextPlayer1;
     [SerializeField] private TMP_Text _messageTextPlayer2;
-    [SerializeField] private float _temporaryDuration = 2f;
-    private Coroutine _hideCoroutine;
+    [SerializeField] private GameplayMessageAnimator _player1Animator;
+    [SerializeField] private GameplayMessageAnimator _player2Animator;
 
     public void Show(GameplayMessage message)
     {
-        if (_hideCoroutine != null)
-        {
-            StopCoroutine(_hideCoroutine);
-            _hideCoroutine = null;
-        }
-
         gameObject.SetActive(true);
-
         switch (message)
         {
             case GameplayMessage.ReplaceCard:
-                _messageTextPlayer1.text = "Pilih 1 kartu untuk ditukar!";
+                ShowPlayer1Message("Pilih 1 kartu untuk ditukar!", false);
                 break;
 
             case GameplayMessage.NotEnoughEnergy:
-                _messageTextPlayer1.text = "Energy tidak cukup!";
-                _hideCoroutine = StartCoroutine(HideAfterDelay());
+                ShowPlayer1Message("Energy tidak cukup!");
                 break;
 
             case GameplayMessage.Draw:
-                _messageTextPlayer1.text = "1 kartu ditambahkan!";
-                _hideCoroutine = StartCoroutine(HideAfterDelay());
+                ShowPlayer1Message("kartu ditambahkan!");
                 break;
 
             case GameplayMessage.OpponentDraw:
-                _messageTextPlayer2.text = $"{PlayerProfile.Player2Name} menambah 1 kartu!";
-                _hideCoroutine = StartCoroutine(HideAfterDelay());
+                ShowPlayer2Message($"{PlayerProfile.Player2Name} menambahkan kartu!");
                 break;
 
             case GameplayMessage.Heal:
-                _messageTextPlayer1.text = $"+50 HP ditambahkan!";
-                _hideCoroutine = StartCoroutine(HideAfterDelay());
+                ShowPlayer1Message($"+50 HP ditambahkan!");
                 break;
 
             case GameplayMessage.HPFull:
-                _messageTextPlayer1.text = $"HP sudah penuh!";
-                _hideCoroutine = StartCoroutine(HideAfterDelay());
+                ShowPlayer1Message($"HP sudah penuh!");
                 break;
 
             case GameplayMessage.OpponentHeal:
-                _messageTextPlayer2.text = $"{PlayerProfile.Player2Name} menambah +50 HP!";
-                _hideCoroutine = StartCoroutine(HideAfterDelay());
+                ShowPlayer2Message($"{PlayerProfile.Player2Name} menambah +50 HP!");
                 break;
 
             case GameplayMessage.Player1ChoseCard:
-                _messageTextPlayer1.text = $"Kamu belum memilih kartu!";
-                _hideCoroutine = StartCoroutine(HideAfterDelay());
+                ShowPlayer1Message($"Kamu belum memilih kartu!");
                 break;
 
             case GameplayMessage.Player2ChoseCard:
-                _messageTextPlayer2.text = $"{PlayerProfile.Player2Name} belum memilih kartu!";
-                _hideCoroutine = StartCoroutine(HideAfterDelay());
+                ShowPlayer2Message($"{PlayerProfile.Player2Name} belum memilih kartu!");
                 break;
 
             default:
@@ -71,23 +56,30 @@ public class GameplayMessageDisplay : MonoBehaviour
         }
     }
 
-    private IEnumerator HideAfterDelay()
-    {
-        yield return new WaitForSeconds(_temporaryDuration);
-        Hide();
-    }
-
     public void Hide()
     {
-        if (_hideCoroutine != null)
+        HidePlayer1Message();
+    }
+
+    private void ShowPlayer1Message(string message, bool temporary = true)
+    {
+        _messageTextPlayer1.text = message;
+        _messageTextPlayer1.alpha = 1f;
+
+        if (temporary)
         {
-            StopCoroutine(_hideCoroutine);
-            _hideCoroutine = null;
+            _player1Animator.Play();
         }
+    }
 
-        _messageTextPlayer1.text = "";
-        _messageTextPlayer2.text = "";
+    private void ShowPlayer2Message(string message)
+    {
+        _messageTextPlayer2.text = message;
+        _player2Animator.Play();
+    }
 
-        gameObject.SetActive(false);
+    private void HidePlayer1Message()
+    {
+        _player1Animator.PlayHide();
     }
 }

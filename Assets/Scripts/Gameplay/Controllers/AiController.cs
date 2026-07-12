@@ -4,11 +4,19 @@ using System.Collections;
 public class AiController : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private PlayerContext _player2;
     [SerializeField] private HandManager _aiHandManager;
     [SerializeField] private HandManager _playerHandManager;
-    [SerializeField] private HandDisplay _handDisplay;
+    [SerializeField] private HandDisplay _aiHandDisplay;
     [SerializeField] private SelectedCardDisplay _selectedCardDisplay;
-    [SerializeField] private PlayerContext _player2;
+
+    [Header("Animation")]
+    [SerializeField] private GameplayMessageDisplay _messageDisplay;
+    [SerializeField] private CardTransitionAnimator _cardTransitionAnimator;
+    [SerializeField] private CardTransitionManager _transitionManager;
+    [SerializeField] private DealAnimationController _dealAnimationController;
+    [SerializeField] private DrawAnimationService _drawAnimationService;
+    [SerializeField] private Sprite _closedCardSprite;
 
     [Header("Action Chance")]
     [SerializeField, Range(0f, 1f)] private float _drawChance = 0.5f;
@@ -43,27 +51,43 @@ public class AiController : MonoBehaviour
 
     private IEnumerator SelectCardDelay()
     {
-        float delay = Random.Range(1f, 2f);
+        float delay = Random.Range(0.5f, 1f);
         yield return new WaitForSeconds(delay);
+        int slotIndex = _aiHandManager.GetRandomAvailableSlot();
 
-        _aiHandManager.SelectRandomCard();
-        _handDisplay.RefreshHand();
-        _selectedCardDisplay.Refresh();
+        if (slotIndex < 0)
+        {
+            yield break;
+        }
+
+        CardData card = _aiHandManager.Hand[slotIndex];
+        RectTransform from = _aiHandDisplay.GetSlotTransform(slotIndex);
+        RectTransform to = _selectedCardDisplay.GetSlotTransform();
+
+        _aiHandDisplay.HideSlot(slotIndex);
+        _cardTransitionAnimator.Play(_closedCardSprite, from, to, () =>
+        {
+            _aiHandManager.SelectCard(slotIndex);
+            _aiHandDisplay.RefreshHand();
+            _selectedCardDisplay.Refresh();
+        });
     }
 
-    public void TryDraw()
+    public IEnumerator TryDraw()
     {
+        int oldHP = _player2.Status.HP;
+        int oldEnergy = _player2.Status.Energy;
+
         if (NeedsEmergencyDraw())
         {
-            EmergencyDraw();
+            yield return StartCoroutine(EmergencyDraw());
         }
         else
         {
-            NormalDraw();
+            yield return StartCoroutine(NormalDraw());
         }
 
-        _player2.HandDisplay.RefreshHand();
-        _player2.StatusDisplay.Refresh();
+        _player2.StatusDisplay.AnimateRefresh(oldHP, oldEnergy);
     }
 
     private bool CanDraw()
@@ -96,23 +120,36 @@ public class AiController : MonoBehaviour
         return _player2.HandManager.Hand.Count < 2;
     }
 
-    private void EmergencyDraw()
+    private IEnumerator EmergencyDraw()
     {
         while (CanDraw())
         {
-            _player2.Status.Energy -= DrawCost;
-            _player2.HandManager.DrawOneCard();
+            yield return StartCoroutine(NormalDraw());
+            yield return new WaitForSeconds(0.05f);
         }
     }
 
-    private void NormalDraw()
+    private IEnumerator NormalDraw()
     {
+        _messageDisplay.Show(GameplayMessage.OpponentDraw);
         _player2.Status.Energy -= DrawCost;
-        _player2.HandManager.DrawOneCard();
+        int slotIndex = _player2.HandManager.DrawOneCard();
+
+        if (slotIndex < 0)
+        {
+            yield break;
+        }
+
+        yield return StartCoroutine(
+            _drawAnimationService.PlayDraw(
+                _player2,
+                _transitionManager,
+                slotIndex));
     }
 
     private void Heal()
     {
+        _messageDisplay.Show(GameplayMessage.OpponentHeal);
         _player2.Status.Energy -= HealCost;
         _player2.Status.HP += HealAmount;
         _player2.Status.HP = Mathf.Clamp(_player2.Status.HP, 0, PlayerProfile.MaxHP);
@@ -120,6 +157,9 @@ public class AiController : MonoBehaviour
 
     public bool TryHeal()
     {
+        int oldHP = _player2.Status.HP;
+        int oldEnergy = _player2.Status.Energy;
+
         if (!CanHeal())
         {
             return false;
@@ -131,7 +171,7 @@ public class AiController : MonoBehaviour
         }
 
         Heal();
-        _player2.StatusDisplay.Refresh();
+        _player2.StatusDisplay.AnimateRefresh(oldHP, oldEnergy);
         return true;
     }
 }

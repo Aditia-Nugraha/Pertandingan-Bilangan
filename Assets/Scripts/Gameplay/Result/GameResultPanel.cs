@@ -6,6 +6,11 @@ using System.Collections;
 
 public class GameResultPanel : MonoBehaviour
 {
+    [Header("Panel")]
+    [SerializeField] private GameObject _container;
+    [SerializeField] private GameObject _background;
+    [SerializeField] private GameObject _panel;
+
     [Header("UI")]
     [SerializeField] private Image _resultPanel;
     [SerializeField] private Image _resultIcon;
@@ -18,10 +23,14 @@ public class GameResultPanel : MonoBehaviour
     [SerializeField] private Sprite _losePanelSprite;
     [SerializeField] private Sprite _loseIconSprite;
 
+    [Header("Animation")]
+    [SerializeField] private ScalePanelAnimator _panelAnimator;
+
     public void Show(MatchResult result)
     {
-        gameObject.SetActive(true);
-
+        _container.SetActive(true);
+        _background.SetActive(true);
+        _panel.SetActive(true);
         _playerNameText.text = PlayerProfile.Player1Name;
 
         switch (result)
@@ -38,14 +47,23 @@ public class GameResultPanel : MonoBehaviour
                 _resultIcon.sprite = _loseIconSprite;
                 break;
         }
+
+        _panelAnimator.PlayShow();
     }
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        _panel.SetActive(false);
+        _container.SetActive(false);
     }
 
     public void Rematch()
+    {
+        _background.SetActive(false);
+        _panelAnimator.PlayHide(RematchAfterHide);
+    }
+
+    private void RematchAfterHide()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

@@ -33,4 +33,8 @@ public class PlayerContext : MonoBehaviour
 
     [SerializeField] private StatusDisplay _statusDisplay;
     public StatusDisplay StatusDisplay => _statusDisplay;
+
+    [Header("Animation")]
+    [SerializeField] private CardFlipManager _cardFlipManager;
+    public CardFlipManager CardFlipManager => _cardFlipManager;
 }

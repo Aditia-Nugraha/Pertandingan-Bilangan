@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class GameplayInitializer : MonoBehaviour
 {
-    [SerializeField] private PlayerContext _player1;
-    [SerializeField] private PlayerContext _player2;
 
     [Header("Player 1")]
+    [SerializeField] private PlayerContext _player1;
     [SerializeField] private DeckManager _player1Deck;
     [SerializeField] private HandManager _player1Hand;
     [SerializeField] private HandDisplay _player1Display;
@@ -13,6 +12,7 @@ public class GameplayInitializer : MonoBehaviour
     [SerializeField] private StatusDisplay _player1StatusDisplay;
 
     [Header("Player 2")]
+    [SerializeField] private PlayerContext _player2;
     [SerializeField] private DeckManager _player2Deck;
     [SerializeField] private HandManager _player2Hand;
     [SerializeField] private HandDisplay _player2Display;
@@ -22,6 +22,7 @@ public class GameplayInitializer : MonoBehaviour
     [Header("Game")]
     [SerializeField] private RoundDisplay _roundDisplay;
     [SerializeField] private GameplayStateManager _stateManager;
+    [SerializeField] private DealAnimationController _dealAnimation;
 
     private void Start()
     {
@@ -46,8 +47,8 @@ public class GameplayInitializer : MonoBehaviour
         _player2Hand.DrawStartingHand();
 
         // Hand UI
-        _player1Display.RefreshHand();
-        _player2Display.RefreshHand();
+        _player1Display.HideAllSlots();
+        _player2Display.HideAllSlots();
 
         //Selected Card Display
         _player1SelectedCardDisplay.Hide();
@@ -59,5 +60,8 @@ public class GameplayInitializer : MonoBehaviour
 
         // Round
         _roundDisplay.Refresh();
+
+        //Opening Animation
+        _dealAnimation.PlayOpeningAnimation();
     }
 }

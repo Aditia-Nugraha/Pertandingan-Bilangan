@@ -6,6 +6,7 @@ public class CardDisplay : MonoBehaviour
     [SerializeField] private Image _cardImage;
     private CardData _cardData;
     public CardData CardData => _cardData;
+    public Image CardImage => _cardImage;
 
     public void SetCard(CardData cardData)
     {
@@ -25,5 +26,15 @@ public class CardDisplay : MonoBehaviour
     {
         _cardData = null;
         _cardImage.enabled = false;
+    }
+
+    public void HideImage()
+    {
+        _cardImage.enabled = false;
+    }
+
+    public void ShowImage()
+    {
+        _cardImage.enabled = true;
     }
 }

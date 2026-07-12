@@ -4,7 +4,6 @@ using System.Collections;
 public class OpponentActionController : MonoBehaviour
 {
     [SerializeField] private AiController _aiController;
-    [SerializeField] private GameplayMessageDisplay _messageDisplay;
 
     public void PlayTurn()
     {
@@ -24,7 +23,6 @@ public class OpponentActionController : MonoBehaviour
 
         if (_aiController.TryHeal())
         {
-            _messageDisplay.Show(GameplayMessage.OpponentHeal);
             yield break;
         }
 
@@ -43,8 +41,7 @@ public class OpponentActionController : MonoBehaviour
             yield break;
         }
 
-        _messageDisplay.Show(GameplayMessage.OpponentDraw);
-        _aiController.TryDraw();
+        yield return StartCoroutine(_aiController.TryDraw());
     }
 
     private IEnumerator EmergencyDrawRoutine()
@@ -54,7 +51,6 @@ public class OpponentActionController : MonoBehaviour
             yield break;
         }
 
-        _messageDisplay.Show(GameplayMessage.OpponentDraw);
-        _aiController.TryDraw();
+        yield return StartCoroutine(_aiController.TryDraw());
     }
 }

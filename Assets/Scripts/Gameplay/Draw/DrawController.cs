@@ -2,15 +2,31 @@ using UnityEngine;
 
 public class DrawController : MonoBehaviour
 {
+    [Header("PLayer")]
     [SerializeField] private PlayerContext _player;
+
+    [Header("Game State")]
     [SerializeField] private GameplayStateManager _stateManager;
+
+    [Header("Display")]
     [SerializeField] private SelectedCardDisplay _selectedCardDisplay;
     [SerializeField] private GameplayMessageDisplay _messageDisplay;
+
+    [Header("Animation")]
+    [SerializeField] private DealAnimationController _dealAnimationController;
+    [SerializeField] private DrawAnimationService _drawAnimationService;
+    [SerializeField] private CardTransitionManager _transitionManager;
+    [SerializeField] private CardDestroyManager _destroyManager;
 
     private const int DrawCost = 5;
 
     public void OnDrawButton()
     {
+        if (_stateManager.CurrentState == GameplayState.Busy)
+        {
+            return;
+        }
+        
         switch (_stateManager.CurrentState)
         {
             case GameplayState.Normal:
@@ -25,6 +41,9 @@ public class DrawController : MonoBehaviour
 
     public void Draw()
     {
+        int oldHP = _player.Status.HP;
+        int oldEnergy = _player.Status.Energy;
+
         if (_player.Status.Energy < DrawCost)
         {
             _messageDisplay.Show(GameplayMessage.NotEnoughEnergy);
@@ -35,33 +54,92 @@ public class DrawController : MonoBehaviour
         {
             if (_player.HandManager.HasSelectedCard())
             {
-                _player.HandManager.RestoreSelectedCard();
-                _player.HandDisplay.RefreshHand();
-                _player.SelectedCardDisplay.Refresh();
-            }
+                _player.HumanController.PlayReturnAnimation(() =>
+                {
+                    ContinueFullHandDraw(oldHP, oldEnergy);
+                });
 
-            _player.Status.Energy -= DrawCost;
-            CardData drawnCard = _player.DeckManager.DrawOneCard();
-
-            if (drawnCard == null)
-            {
                 return;
             }
 
-            _player.TemporaryCard.SetCard(drawnCard);
-            _selectedCardDisplay.Refresh();
-            _player.StatusDisplay.Refresh();
-            _stateManager.SetState(GameplayState.ReplaceCard);
-            _messageDisplay.Show(GameplayMessage.ReplaceCard);
+            ContinueFullHandDraw(oldHP, oldEnergy);
+            return;
+        }
+
+        if (_player.HandManager.HasSelectedCard())
+        {
+            _player.HumanController.PlayReturnAnimation(() =>
+            {
+                ContinueDraw(oldHP, oldEnergy);
+            });
 
             return;
         }
 
-        _player.Status.Energy -= DrawCost;
-        _player.HandManager.DrawOneCard();
-        _player.HandDisplay.RefreshHand();
-        _player.StatusDisplay.Refresh();
+        ContinueDraw(oldHP, oldEnergy);
+        return;
+    }
+
+    private void ContinueDraw(int oldHP, int oldEnergy)
+    {
         _messageDisplay.Show(GameplayMessage.Draw);
+        _player.Status.Energy -= DrawCost;
+        int slotIndex = _player.HandManager.DrawOneCard();
+
+        if (slotIndex < 0)
+        {
+            return;
+        }
+
+        if (_player.HandManager.HasSelectedCard())
+        {
+            _player.HumanController.PlayDrawAnimation(slotIndex, () =>
+            {
+                FinishDraw(oldHP, oldEnergy);
+            });
+
+            return;
+        }
+
+        StartCoroutine(
+            _drawAnimationService.PlayDraw(
+                _player,
+                _transitionManager,
+                slotIndex,
+                () =>
+                {
+                    FinishDraw(oldHP, oldEnergy);
+                }));
+    }
+
+    private void FinishDraw(int oldHP, int oldEnergy)
+    {
+        _player.HandDisplay.RefreshHand();
+        _player.SelectedCardDisplay.Refresh();
+        _player.StatusDisplay.AnimateRefresh(oldHP, oldEnergy);
+    }
+
+    private void ContinueFullHandDraw(int oldHP, int oldEnergy)
+    {
+        _player.Status.Energy -= DrawCost;
+        CardData drawnCard = _player.DeckManager.DrawOneCard();
+
+        if (drawnCard == null)
+        {
+            return;
+        }
+
+        _player.TemporaryCard.SetCard(drawnCard);
+        _player.CardFlipManager.Play(
+            drawnCard,
+            _player.SelectedCardDisplay.GetSlotTransform(),
+            () =>
+            {
+                _player.SelectedCardDisplay.Refresh();
+                _player.StatusDisplay.AnimateRefresh(oldHP, oldEnergy);
+                _stateManager.SetState(GameplayState.ReplaceCard);
+                _messageDisplay.Show(GameplayMessage.ReplaceCard);
+            });
     }
 
     private void Discard()
@@ -71,9 +149,20 @@ public class DrawController : MonoBehaviour
             return;
         }
 
-        _player.TemporaryCard.Clear();
-        _player.SelectedCardDisplay.Refresh();
-        _messageDisplay.Hide();
-        _stateManager.SetState(GameplayState.Normal);
+        _stateManager.SetState(GameplayState.Busy);
+        CardData card = _player.TemporaryCard.Card;
+        _player.SelectedCardDisplay.HideImage();
+
+        _destroyManager.Play(
+            card.CardSprite,
+            _player.SelectedCardDisplay.GetSlotTransform(),
+            () =>
+            {
+                _player.TemporaryCard.Clear();
+                _player.SelectedCardDisplay.Refresh();
+
+                _messageDisplay.Hide();
+                _stateManager.SetState(GameplayState.Normal);
+            });
     }
 }

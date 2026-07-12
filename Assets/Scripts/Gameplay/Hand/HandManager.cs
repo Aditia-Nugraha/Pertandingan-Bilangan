@@ -82,6 +82,26 @@ public class HandManager : MonoBehaviour
         SelectCard(availableIndexes[randomIndex]);
     }
 
+    public int GetRandomAvailableSlot()
+    {
+        List<int> availableIndexes = new();
+
+        for (int i = 0; i < _handCards.Count; i++)
+        {
+            if (_handCards[i] != null)
+            {
+                availableIndexes.Add(i);
+            }
+        }
+
+        if (availableIndexes.Count == 0)
+        {
+            return -1;
+        }
+
+        return availableIndexes[UnityEngine.Random.Range(0, availableIndexes.Count)];
+    }
+
     public void RemoveSelectedCard()
     {
         if (!HasSelectedCard())
@@ -99,14 +119,17 @@ public class HandManager : MonoBehaviour
         return Hand.Count >= MaxHandSize;
     }
 
-    public void DrawOneCard()
+    public int DrawOneCard()
     {
         CardData card = _deckManager.DrawCard();
 
-        if (card != null)
+        if (card == null)
         {
-            _handCards.Add(card);
+            return -1;
         }
+
+        _handCards.Add(card);
+        return _handCards.Count - 1;
     }
 
     public void ReplaceCard(int index, CardData newCard)
