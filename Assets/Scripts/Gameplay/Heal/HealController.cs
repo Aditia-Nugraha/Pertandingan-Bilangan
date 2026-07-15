@@ -21,16 +21,19 @@ public class HealController : MonoBehaviour
 
         if (_player.Status.Energy < HealCost)
         {
+            AudioManager.Instance.PlaySfx(GameSfx.Error);
             _messageDisplay.Show(GameplayMessage.NotEnoughEnergy);
             return;
         }
 
         if (_player.Status.HP >= PlayerProfile.MaxHP)
         {
+            AudioManager.Instance.PlaySfx(GameSfx.Error);
             _messageDisplay.Show(GameplayMessage.HPFull);
             return;
         }
 
+        AudioManager.Instance.PlaySfx(GameSfx.Heal);
         _messageDisplay.Show(GameplayMessage.Heal);
         _player.Status.Energy -= HealCost;
         _player.Status.HP += HealAmount;

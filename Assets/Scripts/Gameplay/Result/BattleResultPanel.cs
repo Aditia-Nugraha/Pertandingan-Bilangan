@@ -331,4 +331,22 @@ public class BattleResultPanel : MonoBehaviour
         yield return new WaitForSeconds(1f);
         _gameResultPanel.Show(GetMatchResult());
     }
+
+    public GameSfx GetBattleResultSfx()
+    {
+        BattleResultData result = _battleManager.LastBattleResult;
+
+        switch (result.Outcome)
+        {
+            case BattleOutcome.Win:
+            case BattleOutcome.Draw:
+                return GameSfx.BattleWin;
+
+            case BattleOutcome.Lose:
+                return GameSfx.BattleLose;
+
+            default:
+                return GameSfx.BattleWin;
+        }
+    }
 }

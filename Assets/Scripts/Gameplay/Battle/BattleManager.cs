@@ -25,12 +25,14 @@ public class BattleManager : MonoBehaviour
         if (!_player1.HandManager.HasSelectedCard())
         {
             _messageDisplay.Show(GameplayMessage.Player1ChoseCard);
+            AudioManager.Instance.PlaySfx(GameSfx.Error);
             return;
         }
 
         if (!_player2.HandManager.HasSelectedCard())
         {
             _messageDisplay.Show(GameplayMessage.Player2ChoseCard);
+            AudioManager.Instance.PlaySfx(GameSfx.Error);
             return;
         }
 
@@ -38,6 +40,7 @@ public class BattleManager : MonoBehaviour
         _player2.SelectedCardDisplay.Reveal();
         BattleResultData result = ResolveBattle();
         _battleResultPanel.Show();
+        AudioManager.Instance.PlaySfx(GameSfx.BattleStart);
     }
 
     private BattleResultData ResolveBattle()

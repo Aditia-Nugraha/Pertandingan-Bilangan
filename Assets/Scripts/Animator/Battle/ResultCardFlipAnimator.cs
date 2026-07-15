@@ -29,6 +29,7 @@ public class ResultCardFlipAnimator : MonoBehaviour
 
     private IEnumerator FlipRoutine(CardData card, Action onFinished)
     {
+        AudioManager.Instance.PlaySfx(GameSfx.CardFlip);
         _rectTransform.localScale = _defaultScale;
         float halfDuration = _duration * 0.5f;
         float elapsed = 0f;

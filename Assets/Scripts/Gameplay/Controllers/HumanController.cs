@@ -41,6 +41,7 @@ public class HumanController : MonoBehaviour
         if (_handManager.HasSelectedCard())
         {
             PlayReplaceAnimation(slotIndex);
+            AudioManager.Instance.PlaySfx(GameSfx.CardMove);
             return;
         }
 
@@ -55,11 +56,11 @@ public class HumanController : MonoBehaviour
         RectTransform to = _selectedCardDisplay.GetSlotTransform();
 
         _handDisplay.HideSlot(slotIndex);
-
         _transitionManager.PlaySingle(card.CardSprite, from, to, () =>
         {
             SelectBattleCard(slotIndex);
         });
+        AudioManager.Instance.PlaySfx(GameSfx.CardMove);
     }
 
     private void PlayReplaceAnimation(int slotIndex)

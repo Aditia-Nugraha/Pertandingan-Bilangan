@@ -58,17 +58,8 @@ public class CardTransitionManager : MonoBehaviour
             }
         }
 
-        _backwardAnimator.Play(
-            selectedSprite,
-            selectedFrom,
-            selectedTo,
-            FinishOne);
-
-        _forwardAnimator.Play(
-            drawSprite,
-            drawFrom,
-            drawTo,
-            FinishOne);
+        _backwardAnimator.Play(selectedSprite, selectedFrom, selectedTo, FinishOne);
+        _forwardAnimator.Play(drawSprite, drawFrom, drawTo, FinishOne);
     }
 
     public void PlayTogether(
@@ -102,10 +93,6 @@ public class CardTransitionManager : MonoBehaviour
         RectTransform to,
         Action onFinished)
     {
-        _backwardAnimator.Play(
-            sprite,
-            from,
-            to,
-            onFinished);
+        _backwardAnimator.Play(sprite, from, to, onFinished);
     }
 }

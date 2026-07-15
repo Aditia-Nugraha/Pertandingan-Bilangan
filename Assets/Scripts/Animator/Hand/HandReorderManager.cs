@@ -62,10 +62,7 @@ public class HandReorderManager : MonoBehaviour
             }
 
             handDisplay.HideSlot(current.SlotIndex);
-            HandReorderAnimator animator =
-                Instantiate(
-                    _animatorPrefab,
-                    transform);
+            HandReorderAnimator animator = Instantiate(_animatorPrefab, transform);
             Sprite displaySprite = handDisplay.GetDisplaySprite(current.SlotIndex);
             animator.Play(
                 displaySprite,

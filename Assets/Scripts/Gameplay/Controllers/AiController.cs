@@ -54,6 +54,7 @@ public class AiController : MonoBehaviour
         float delay = Random.Range(0.5f, 1f);
         yield return new WaitForSeconds(delay);
         int slotIndex = _aiHandManager.GetRandomAvailableSlot();
+        AudioManager.Instance.PlaySfx(GameSfx.CardMove);
 
         if (slotIndex < 0)
         {
@@ -131,6 +132,7 @@ public class AiController : MonoBehaviour
 
     private IEnumerator NormalDraw()
     {
+        AudioManager.Instance.PlaySfx(GameSfx.Message);
         _messageDisplay.Show(GameplayMessage.OpponentDraw);
         _player2.Status.Energy -= DrawCost;
         int slotIndex = _player2.HandManager.DrawOneCard();
@@ -149,6 +151,7 @@ public class AiController : MonoBehaviour
 
     private void Heal()
     {
+        AudioManager.Instance.PlaySfx(GameSfx.Message);
         _messageDisplay.Show(GameplayMessage.OpponentHeal);
         _player2.Status.Energy -= HealCost;
         _player2.Status.HP += HealAmount;

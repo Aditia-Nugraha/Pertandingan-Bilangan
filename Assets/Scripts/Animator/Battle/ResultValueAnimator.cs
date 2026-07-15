@@ -28,12 +28,12 @@ public class ResultValueAnimator : MonoBehaviour
             StopCoroutine(_animationCoroutine);
         }
 
-        _animationCoroutine = StartCoroutine(
-            PlayRoutine(targetValue, onFinished));
+        _animationCoroutine = StartCoroutine(PlayRoutine(targetValue, onFinished));
     }
 
     private IEnumerator PlayRoutine(float targetValue, Action onFinished)
     {
+        AudioManager.Instance.PlaySfx(GameSfx.Counting);
         float timer = 0f;
         Color color = _valueText.color;
         color.a = 0f;

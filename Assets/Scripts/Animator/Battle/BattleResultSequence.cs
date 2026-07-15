@@ -3,6 +3,10 @@ using System.Collections;
 
 public class BattleResultSequence : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private BattleResultPanel _battleResultPanel;
+
+    [Header("Animation")]
     [SerializeField] private ScalePanelAnimator _panelAnimator;
     [SerializeField] private BattleResultTextAnimator _roundAnimator;
     [SerializeField] private ResultPlayerDisplay _player1Display;
@@ -148,6 +152,7 @@ public class BattleResultSequence : MonoBehaviour
             finished = true;
         });
 
+        AudioManager.Instance.PlaySfx(_battleResultPanel.GetBattleResultSfx());
         yield return new WaitUntil(() => finished);
     }
 

@@ -27,6 +27,7 @@ public class ReplaceController : MonoBehaviour
             return;
         }
 
+        AudioManager.Instance.PlaySfx(GameSfx.CardMove);
         _stateManager.SetState(GameplayState.Busy);
 
         CardData oldCard = _player.HandManager.Hand[handIndex];

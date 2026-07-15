@@ -46,6 +46,7 @@ public class DrawController : MonoBehaviour
 
         if (_player.Status.Energy < DrawCost)
         {
+            AudioManager.Instance.PlaySfx(GameSfx.Error);
             _messageDisplay.Show(GameplayMessage.NotEnoughEnergy);
             return;
         }
@@ -54,6 +55,7 @@ public class DrawController : MonoBehaviour
         {
             if (_player.HandManager.HasSelectedCard())
             {
+                AudioManager.Instance.PlaySfx(GameSfx.CardMove);
                 _player.HumanController.PlayReturnAnimation(() =>
                 {
                     ContinueFullHandDraw(oldHP, oldEnergy);
@@ -68,6 +70,7 @@ public class DrawController : MonoBehaviour
 
         if (_player.HandManager.HasSelectedCard())
         {
+            AudioManager.Instance.PlaySfx(GameSfx.CardMove);
             _player.HumanController.PlayReturnAnimation(() =>
             {
                 ContinueDraw(oldHP, oldEnergy);
@@ -82,6 +85,7 @@ public class DrawController : MonoBehaviour
 
     private void ContinueDraw(int oldHP, int oldEnergy)
     {
+        AudioManager.Instance.PlaySfx(GameSfx.CardFlip);
         _messageDisplay.Show(GameplayMessage.Draw);
         _player.Status.Energy -= DrawCost;
         int slotIndex = _player.HandManager.DrawOneCard();
@@ -121,6 +125,7 @@ public class DrawController : MonoBehaviour
 
     private void ContinueFullHandDraw(int oldHP, int oldEnergy)
     {
+        AudioManager.Instance.PlaySfx(GameSfx.CardFlip);
         _player.Status.Energy -= DrawCost;
         CardData drawnCard = _player.DeckManager.DrawOneCard();
 
@@ -149,6 +154,7 @@ public class DrawController : MonoBehaviour
             return;
         }
 
+        AudioManager.Instance.PlaySfx(GameSfx.Discard);
         _stateManager.SetState(GameplayState.Busy);
         CardData card = _player.TemporaryCard.Card;
         _player.SelectedCardDisplay.HideImage();

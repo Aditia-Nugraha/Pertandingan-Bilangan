@@ -47,6 +47,7 @@ public class DealAnimationController : MonoBehaviour
                     i,
                     () => player2Finished = true));
 
+            AudioManager.Instance.PlaySfx(GameSfx.CardFlip);
             yield return new WaitUntil(() => player1Finished && player2Finished);
             yield return new WaitForSeconds(0.05f);
         }

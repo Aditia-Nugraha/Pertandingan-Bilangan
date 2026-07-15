@@ -39,12 +39,16 @@ public class GameResultPanel : MonoBehaviour
                 _resultPanel.sprite = _winPanelSprite;
                 _resultText.text = "Menang!";
                 _resultIcon.sprite = _winIconSprite;
+                AudioManager.Instance.PlaySfx(GameSfx.GameWin);
+                AudioManager.Instance.PauseMusic();
                 break;
 
             case MatchResult.Lose:
                 _resultPanel.sprite = _losePanelSprite;
                 _resultText.text = "Kalah...";
                 _resultIcon.sprite = _loseIconSprite;
+                AudioManager.Instance.PlaySfx(GameSfx.GameLose);
+                AudioManager.Instance.PauseMusic();
                 break;
         }
 
@@ -59,6 +63,7 @@ public class GameResultPanel : MonoBehaviour
 
     public void Rematch()
     {
+        AudioManager.Instance.ResumeMusic();
         _background.SetActive(false);
         _panelAnimator.PlayHide(RematchAfterHide);
     }
@@ -70,6 +75,7 @@ public class GameResultPanel : MonoBehaviour
 
     public void Back()
     {
+        AudioManager.Instance.ResumeMusic();
         SceneManager.LoadScene("BattleMenu");
     }
 }

@@ -50,7 +50,7 @@ public class ScalePanelAnimator : MonoBehaviour
 
         while (timer < duration)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(timer / duration);
             _panel.localScale = Vector3.Lerp(from, to, t);
             yield return null;
