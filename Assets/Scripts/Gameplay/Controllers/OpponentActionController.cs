@@ -4,10 +4,16 @@ using System.Collections;
 public class OpponentActionController : MonoBehaviour
 {
     [SerializeField] private AiController _aiController;
+    [SerializeField] private GameplaySyncController _gameplaySyncController;
 
     public void PlayTurn()
     {
-        StartCoroutine(TurnRoutine());
+        switch (PlayerProfile.CurrentGameMode)
+        {
+            case GameMode.PlayerVsComputer:
+                StartCoroutine(TurnRoutine());
+                break;
+        }
     }
 
     private IEnumerator TurnRoutine()

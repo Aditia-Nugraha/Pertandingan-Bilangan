@@ -29,17 +29,37 @@ public class AiController : MonoBehaviour
     private const int HealCost = 15;
     private const int HealAmount = 50;
 
+    private bool IsPlayerVsComputer => PlayerProfile.CurrentGameMode == GameMode.PlayerVsComputer;
+
+    private void Awake()
+    {
+        if (!IsPlayerVsComputer)
+        {
+            enabled = false;
+        }
+    }
+
     private void OnEnable()
     {
+        if (!IsPlayerVsComputer)
+        {
+            return;
+        }
+
         _playerHandManager.OnCardSelected += HandlePlayerCardSelected;
     }
 
     private void OnDisable()
     {
+        if (!IsPlayerVsComputer)
+        {
+            return;
+        }
+
         _playerHandManager.OnCardSelected -= HandlePlayerCardSelected;
     }
 
-    public void HandlePlayerCardSelected()
+    private void HandlePlayerCardSelected(int slotIndex)
     {
         if (_aiHandManager.HasSelectedCard())
         {

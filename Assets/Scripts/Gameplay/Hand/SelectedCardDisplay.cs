@@ -18,17 +18,22 @@ public class SelectedCardDisplay : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.HandManager.OnCardSelected += Refresh;
+        _player.HandManager.OnCardSelected += HandleCardSelected;
     }
 
     private void OnDisable()
     {
-        _player.HandManager.OnCardSelected -= Refresh;
+        _player.HandManager.OnCardSelected -= HandleCardSelected;
+    }
+
+    private void HandleCardSelected(int slotIndex)
+    {
+        Refresh();
     }
 
     private bool IsCurrentViewer()
     {
-        return _playerSide == PlayerProfile.CurrentViewingSide;
+        return _playerSide == PlayerProfile.LocalPlayerSide;
     }
 
     public void Refresh()

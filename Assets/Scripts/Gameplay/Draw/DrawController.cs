@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class DrawController : MonoBehaviour
 {
-    [Header("PLayer")]
+    [Header("Player")]
     [SerializeField] private PlayerContext _player;
+    [SerializeField] private GameplaySyncController _syncController;
 
-    [Header("Game State")]
+    [Header("Gameplay")]
     [SerializeField] private GameplayStateManager _stateManager;
+    [SerializeField] private GameplaySyncController _gameplaySyncController;
 
     [Header("Display")]
     [SerializeField] private SelectedCardDisplay _selectedCardDisplay;
@@ -95,6 +97,12 @@ public class DrawController : MonoBehaviour
             return;
         }
 
+        if (PlayerProfile.CurrentGameMode == GameMode.PlayerVsPlayer)
+        {
+            CardData card = _player.HandManager.Hand[slotIndex];
+            _syncController.SendDrawCard(slotIndex, card.CardId);
+        }
+
         if (_player.HandManager.HasSelectedCard())
         {
             _player.HumanController.PlayDrawAnimation(slotIndex, () =>
@@ -121,6 +129,10 @@ public class DrawController : MonoBehaviour
         _player.HandDisplay.RefreshHand();
         _player.SelectedCardDisplay.Refresh();
         _player.StatusDisplay.AnimateRefresh(oldHP, oldEnergy);
+        if (PlayerProfile.CurrentGameMode == GameMode.PlayerVsPlayer)
+        {
+            _gameplaySyncController.SendStatus();
+        }
     }
 
     private void ContinueFullHandDraw(int oldHP, int oldEnergy)
@@ -142,6 +154,12 @@ public class DrawController : MonoBehaviour
             {
                 _player.SelectedCardDisplay.Refresh();
                 _player.StatusDisplay.AnimateRefresh(oldHP, oldEnergy);
+                
+                if (PlayerProfile.CurrentGameMode == GameMode.PlayerVsPlayer)
+                {
+                    _gameplaySyncController.SendStatus();
+                }
+
                 _stateManager.SetState(GameplayState.ReplaceCard);
                 _messageDisplay.Show(GameplayMessage.ReplaceCard);
             });

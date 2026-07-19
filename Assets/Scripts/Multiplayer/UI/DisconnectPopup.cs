@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class UpcomingController : MonoBehaviour
+public class DisconnectPopup : MonoBehaviour
 {
     [Header("Panel")]
     [SerializeField] private GameObject _container;
@@ -21,6 +22,7 @@ public class UpcomingController : MonoBehaviour
         _background.SetActive(true);
         _panel.SetActive(true);
         _panelAnimator.PlayShow();
+        AudioManager.Instance.PlaySfx(GameSfx.Error);
     }
 
     public void Hide()
@@ -30,12 +32,9 @@ public class UpcomingController : MonoBehaviour
         _container.SetActive(false);
     }
 
-    public void Close()
+    public void BackToBattleMenu()
     {
-        _background.SetActive(false);
-        _panelAnimator.PlayHide(() =>
-        {
-            Hide();
-        });
+        NetworkManager.Instance.Disconnect();
+        SceneManager.LoadScene("BattleMenu");
     }
 }

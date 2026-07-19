@@ -4,10 +4,18 @@ using System.Collections;
 
 public class GameplayMessageDisplay : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _messageTextPlayer1;
-    [SerializeField] private TMP_Text _messageTextPlayer2;
-    [SerializeField] private GameplayMessageAnimator _player1Animator;
-    [SerializeField] private GameplayMessageAnimator _player2Animator;
+    [Header("Text")]
+    [SerializeField] private TMP_Text _bottomMessageText;
+    [SerializeField] private TMP_Text _topMessageText;
+
+    [Header("Animation")]
+    [SerializeField] private GameplayMessageAnimator _bottomMessageAnimator;
+    [SerializeField] private GameplayMessageAnimator _topMessageAnimator;
+
+    private string OpponentName =>
+    PlayerProfile.LocalPlayerSide == PlayerSide.Player1
+        ? PlayerProfile.Player2Name
+        : PlayerProfile.Player1Name;
 
     public void Show(GameplayMessage message)
     {
@@ -15,39 +23,39 @@ public class GameplayMessageDisplay : MonoBehaviour
         switch (message)
         {
             case GameplayMessage.ReplaceCard:
-                ShowPlayer1Message("Pilih 1 kartu untuk ditukar!", false);
+                ShowBottomMessage("Pilih 1 kartu untuk ditukar!", false);
                 break;
 
             case GameplayMessage.NotEnoughEnergy:
-                ShowPlayer1Message("Energy tidak cukup!");
+                ShowBottomMessage("Energy tidak cukup!");
                 break;
 
             case GameplayMessage.Draw:
-                ShowPlayer1Message("kartu ditambahkan!");
+                ShowBottomMessage("kartu ditambahkan!");
                 break;
 
             case GameplayMessage.OpponentDraw:
-                ShowPlayer2Message($"{PlayerProfile.Player2Name} menambahkan kartu!");
+                ShowTopMessage($"{OpponentName} menambahkan kartu!");
                 break;
 
             case GameplayMessage.Heal:
-                ShowPlayer1Message($"+50 HP ditambahkan!");
+                ShowBottomMessage($"+50 HP ditambahkan!");
                 break;
 
             case GameplayMessage.HPFull:
-                ShowPlayer1Message($"HP sudah penuh!");
+                ShowBottomMessage($"HP sudah penuh!");
                 break;
 
             case GameplayMessage.OpponentHeal:
-                ShowPlayer2Message($"{PlayerProfile.Player2Name} menambah +50 HP!");
+                ShowTopMessage($"{OpponentName} menambah +50 HP!");
                 break;
 
             case GameplayMessage.Player1ChoseCard:
-                ShowPlayer1Message($"Kamu belum memilih kartu!");
+                ShowBottomMessage($"Kamu belum memilih kartu!");
                 break;
 
             case GameplayMessage.Player2ChoseCard:
-                ShowPlayer2Message($"{PlayerProfile.Player2Name} belum memilih kartu!");
+                ShowTopMessage($"{OpponentName} belum memilih kartu!");
                 break;
 
             default:
@@ -58,28 +66,28 @@ public class GameplayMessageDisplay : MonoBehaviour
 
     public void Hide()
     {
-        HidePlayer1Message();
+        HideBottomMessage();
     }
 
-    private void ShowPlayer1Message(string message, bool temporary = true)
+    private void ShowBottomMessage(string message, bool temporary = true)
     {
-        _messageTextPlayer1.text = message;
-        _messageTextPlayer1.alpha = 1f;
+        _bottomMessageText.text = message;
+        _bottomMessageText.alpha = 1f;
 
         if (temporary)
         {
-            _player1Animator.Play();
+            _bottomMessageAnimator.Play();
         }
     }
 
-    private void ShowPlayer2Message(string message)
+    private void ShowTopMessage(string message)
     {
-        _messageTextPlayer2.text = message;
-        _player2Animator.Play();
+        _topMessageText.text = message;
+        _topMessageAnimator.Play();
     }
 
-    private void HidePlayer1Message()
+    private void HideBottomMessage()
     {
-        _player1Animator.PlayHide();
+        _bottomMessageAnimator.PlayHide();
     }
 }

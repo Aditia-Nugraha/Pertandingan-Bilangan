@@ -1,8 +1,11 @@
 public static class PlayerProfile
 {
-    //GameMode
+    //Player VS Computer
     public static GameMode CurrentGameMode = GameMode.PlayerVsComputer;
     public static PlayerSide CurrentViewingSide = PlayerSide.Player1;
+
+    //Player VS Player
+    public static PlayerSide LocalPlayerSide = PlayerSide.Player1;
 
     // Constants
     public const int MaxHP = 1000;

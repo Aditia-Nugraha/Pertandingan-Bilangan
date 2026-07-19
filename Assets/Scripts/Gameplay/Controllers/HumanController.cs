@@ -9,6 +9,7 @@ public class HumanController : MonoBehaviour
     [SerializeField] private GameplayStateManager _stateManager;
     [SerializeField] private ReplaceController _replaceController;
     [SerializeField] private CardTransitionManager _transitionManager;
+    [SerializeField] private GameplaySyncController _syncController;
 
     public void SelectCard(int slotIndex)
     {
@@ -117,7 +118,7 @@ public class HumanController : MonoBehaviour
                 _handManager.RestoreSelectedCard();
                 _handDisplay.RefreshHand();
                 _selectedCardDisplay.Refresh();
-
+                _syncController.SendReturnCard();
                 onFinished?.Invoke();
             });
     }

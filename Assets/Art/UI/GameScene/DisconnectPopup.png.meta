@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6c367417eb049eb40ad7e7541374ac86
+guid: 27343143f978b8a4a9ad7e4a877f611c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4711681108986437090
-    second: UpcomingPanel_0
+      213: -1397353334910039356
+    second: DisconnectPopup_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UpcomingPanel_0
+      name: DisconnectPopup_0
       rect:
         serializedVersion: 2
         x: 106
         y: 0
         width: 933
-        height: 1059
+        height: 1080
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e12e1f3befebc9eb0800000000000000
-      internalID: -4711681108986437090
+      spriteID: 4cacafe9b8a9b9ce0800000000000000
+      internalID: -1397353334910039356
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UpcomingPanel_0: -4711681108986437090
+      DisconnectPopup_0: -1397353334910039356
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

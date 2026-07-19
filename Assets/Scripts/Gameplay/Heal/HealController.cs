@@ -5,6 +5,7 @@ public class HealController : MonoBehaviour
     [SerializeField] private PlayerContext _player;
     [SerializeField] private GameplayStateManager _stateManager;
     [SerializeField] private GameplayMessageDisplay _messageDisplay;
+    [SerializeField] private GameplaySyncController _gameplaySyncController;
 
     private const int HealCost = 15;
     private const int HealAmount = 50;
@@ -39,5 +40,11 @@ public class HealController : MonoBehaviour
         _player.Status.HP += HealAmount;
         _player.Status.HP = Mathf.Clamp(_player.Status.HP, 0, PlayerProfile.MaxHP);
         _player.StatusDisplay.AnimateRefresh(oldHP, oldEnergy);
+
+        if (PlayerProfile.CurrentGameMode == GameMode.PlayerVsPlayer)
+        {
+            NetworkManager.Instance.Send(NetworkCommand.Heal);
+            _gameplaySyncController.SendStatus();
+        }
     }
 }

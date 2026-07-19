@@ -15,7 +15,7 @@ public class HandDisplay : MonoBehaviour
 
     private bool IsCurrentViewer()
     {
-        return _playerSide == PlayerProfile.CurrentViewingSide;
+        return _playerSide == PlayerProfile.LocalPlayerSide;
     }
 
     public void RefreshHand()

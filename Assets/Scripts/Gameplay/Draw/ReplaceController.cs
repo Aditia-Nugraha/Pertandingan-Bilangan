@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class ReplaceController : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private PlayerContext _player;
     [SerializeField] private GameplayStateManager _stateManager;
     [SerializeField] private GameplayMessageDisplay _messageDisplay;
+    [SerializeField] private GameplaySyncController _gameplaySyncController;
 
     [Header("Animation")]
     [SerializeField] private CardTransitionManager _transitionManager;
@@ -66,6 +68,12 @@ public class ReplaceController : MonoBehaviour
     private void FinishReplace(int handIndex)
     {
         _player.HandManager.ReplaceCard(handIndex, _player.TemporaryCard.Card);
+
+        if (PlayerProfile.CurrentGameMode == GameMode.PlayerVsPlayer)
+        {
+            _gameplaySyncController.SendReplaceCard(handIndex, _player.TemporaryCard.Card.CardId);
+        }
+
         _player.TemporaryCard.Clear();
         _player.HandDisplay.RefreshHand();
         _player.SelectedCardDisplay.Refresh();

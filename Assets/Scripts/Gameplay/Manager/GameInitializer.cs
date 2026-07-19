@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameplayInitializer : MonoBehaviour
+public class GameInitializer : MonoBehaviour
 {
 
     [Header("Player 1")]

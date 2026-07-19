@@ -12,7 +12,7 @@ public class HandManager : MonoBehaviour
 
     [SerializeField] private SelectedCardData _selectedCard = new SelectedCardData();
     public SelectedCardData SelectedCard => _selectedCard;
-    public event Action OnCardSelected;
+    public event Action<int> OnCardSelected;
 
     public void DrawStartingHand()
     {
@@ -51,7 +51,21 @@ public class HandManager : MonoBehaviour
         _selectedCard.Card = card;
         _selectedCard.OriginalSlotIndex = slotIndex;
         _handCards[slotIndex] = null;
-        OnCardSelected?.Invoke();
+        OnCardSelected?.Invoke(slotIndex);
+    }
+
+    public void SelectCard(CardData card, int slotIndex)
+    {
+        if (card == null)
+        {
+            return;
+        }
+
+        RestoreSelectedCard();
+        _selectedCard.Card = card;
+        _selectedCard.OriginalSlotIndex = slotIndex;
+        _handCards[slotIndex] = null;
+        OnCardSelected?.Invoke(slotIndex);
     }
 
     public void RestoreSelectedCard()
@@ -124,6 +138,22 @@ public class HandManager : MonoBehaviour
         CardData card = _deckManager.DrawCard();
 
         if (card == null)
+        {
+            return -1;
+        }
+
+        _handCards.Add(card);
+        return _handCards.Count - 1;
+    }
+
+    public int AddCard(CardData card)
+    {
+        if (card == null)
+        {
+            return -1;
+        }
+
+        if (IsHandFull())
         {
             return -1;
         }
