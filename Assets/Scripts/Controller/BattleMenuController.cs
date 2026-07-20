@@ -1,18 +1,22 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class BattleMenuController : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _playerNameInput;
     [SerializeField] private HandshakeController _handshakeController;
     [SerializeField] private MultiplayerLobbyPanel _lobbyPanel;
-    [SerializeField] private string _hostIp = "127.0.0.1";
+    [SerializeField] private float _hostTimeout = 3f;
+    private Coroutine _hostRoutine;
+    private bool _isJoining;
 
     private void OnEnable()
     {
         _handshakeController.HandshakeCompleted += HandleHandshakeCompleted;
         NetworkManager.Instance.ConnectionFailed += HandleConnectionFailed;
+        LanDiscovery.Instance.HostFound += HandleHostFound;
     }
 
     private void OnDisable()
@@ -24,14 +28,41 @@ public class BattleMenuController : MonoBehaviour
 
         _handshakeController.HandshakeCompleted -= HandleHandshakeCompleted;
         NetworkManager.Instance.ConnectionFailed -= HandleConnectionFailed;
+        LanDiscovery.Instance.HostFound -= HandleHostFound;
     }
 
     private void HandleHandshakeCompleted()
     {
+        if (NetworkSession.Role == PlayerRole.Client)
+        {
+            LanDiscovery.Instance.StopDiscovery();
+        }
+
+        LanDiscovery.Instance.StopListening();
+
         _lobbyPanel.ShowPlayerFound(
             PlayerProfile.Player2Name,
             NetworkSession.Role == PlayerRole.Host);
-            AudioManager.Instance.PlaySfx(GameSfx.BattleWin);
+
+        AudioManager.Instance.PlaySfx(GameSfx.BattleWin);
+    }
+
+    private void HandleHostFound(string ip)
+    {
+        if (_isJoining)
+        {
+            return;
+        }
+
+        if (_hostRoutine != null)
+        {
+            StopCoroutine(_hostRoutine);
+            _hostRoutine = null;
+        }
+
+        _isJoining = true;
+        LanDiscovery.Instance.StopListening();
+        NetworkManager.Instance.Join(ip);
     }
 
     private void HandleConnectionFailed()
@@ -73,14 +104,26 @@ public class BattleMenuController : MonoBehaviour
         PlayerProfile.LocalPlayerSide = PlayerSide.Player1;
 
         _lobbyPanel.ShowSearching();
+        _isJoining = false;
         NetworkSession.Role = PlayerRole.Client;
-        NetworkManager.Instance.Join(_hostIp);
+        LanDiscovery.Instance.StartListening();
+        _hostRoutine = StartCoroutine(HostTimeoutRoutine());
     }
 
-    public void AutoConnect()
+    private IEnumerator HostTimeoutRoutine()
     {
-        NetworkSession.Role = PlayerRole.Client;
-        NetworkManager.Instance.Join(_hostIp);
+        yield return new WaitForSeconds(_hostTimeout);
+
+        if (_isJoining)
+        {
+            yield break;
+        }
+
+        LanDiscovery.Instance.StopListening();
+        NetworkSession.Role = PlayerRole.Host;
+        NetworkManager.Instance.Host();
+        LanDiscovery.Instance.StartDiscovery();
+        Debug.Log("No Host Found -> Become Host");
     }
 
     public void HostGame()
@@ -89,15 +132,19 @@ public class BattleMenuController : MonoBehaviour
         NetworkManager.Instance.Host();
     }
 
-    public void JoinGame()
-    {
-        NetworkSession.Role = PlayerRole.Client;
-        NetworkManager.Instance.Join(_hostIp);
-    }
-
     public void CancelSearching()
     {
+        if (_hostRoutine != null)
+        {
+            StopCoroutine(_hostRoutine);
+            _hostRoutine = null;
+        }
+
+        LanDiscovery.Instance.StopListening();
+        LanDiscovery.Instance.StopDiscovery();
+        NetworkManager.Instance.Disconnect();
         NetworkSession.Role = PlayerRole.None;
+        _isJoining = false;
     }
 
     public void StartBattle()

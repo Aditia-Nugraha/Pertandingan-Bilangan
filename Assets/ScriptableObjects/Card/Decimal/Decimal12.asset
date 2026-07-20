@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   CardId: 29
   Representation: 1
-  Value: 0.66
+  Value: 0.666
   Attack: 200
   CardSprite: {fileID: 2552064075464149509, guid: 71237811a63075549bcc6ad97a716237, type: 3}

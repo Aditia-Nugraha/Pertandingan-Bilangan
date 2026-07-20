@@ -59,7 +59,6 @@ public class MultiplayerLobbyPanel : MonoBehaviour
 
         _panelAnimator.PlayHide(() =>
         {
-            NetworkManager.Instance.Disconnect();
             _background.SetActive(false);
             gameObject.SetActive(false);
             _battleMenuController.CancelSearching();

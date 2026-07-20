@@ -41,7 +41,6 @@ public class NetworkManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
         _mainThread = SynchronizationContext.Current;
     }
 

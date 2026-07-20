@@ -6811,6 +6811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b072318893ebb7c4cbff99a07dac0487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DisconnectPopup
+  _gameplaySyncController: {fileID: 1968591048}
   _container: {fileID: 864020221}
   _background: {fileID: 253263936}
   _panel: {fileID: 201502997}

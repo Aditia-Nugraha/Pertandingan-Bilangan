@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class DisconnectPopup : MonoBehaviour
 {
+    [Header("Controller")]
+    [SerializeField] private GameplaySyncController _gameplaySyncController;
+
     [Header("Panel")]
     [SerializeField] private GameObject _container;
     [SerializeField] private GameObject _background;
@@ -22,7 +25,6 @@ public class DisconnectPopup : MonoBehaviour
         _background.SetActive(true);
         _panel.SetActive(true);
         _panelAnimator.PlayShow();
-        AudioManager.Instance.PlaySfx(GameSfx.Error);
     }
 
     public void Hide()
@@ -34,7 +36,11 @@ public class DisconnectPopup : MonoBehaviour
 
     public void BackToBattleMenu()
     {
+        _gameplaySyncController.IgnoreNextDisconnect();
+        LanDiscovery.Instance.StopListening();
+        LanDiscovery.Instance.StopDiscovery();
         NetworkManager.Instance.Disconnect();
+        NetworkSession.Role = PlayerRole.None;
         SceneManager.LoadScene("BattleMenu");
     }
 }

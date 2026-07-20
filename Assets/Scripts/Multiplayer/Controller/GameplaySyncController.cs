@@ -29,10 +29,13 @@ public class GameplaySyncController : MonoBehaviour
     [SerializeField] private DrawAnimationService _drawAnimationService;
     [SerializeField] private CardDestroyManager _destroyManager;
 
+    private bool _ignoreDisconnect;
+
     private void OnEnable()
     {
         NetworkManager.Instance.PacketReceived += HandlePacketReceived;
         _localPlayer.HandManager.OnCardSelected += HandleLocalCardSelected;
+        NetworkManager.Instance.Disconnected += HandleNetworkDisconnected;
     }
 
     private void OnDisable()
@@ -44,19 +47,23 @@ public class GameplaySyncController : MonoBehaviour
 
         NetworkManager.Instance.PacketReceived -= HandlePacketReceived;
         _localPlayer.HandManager.OnCardSelected -= HandleLocalCardSelected;
+        NetworkManager.Instance.Disconnected -= HandleNetworkDisconnected;
     }
 
-    private CardData GetCardById(int cardId)
+    public void IgnoreNextDisconnect()
     {
-        foreach (CardData card in _cardDatabase.Cards)
+        _ignoreDisconnect = true;
+    }
+
+    private void HandleNetworkDisconnected()
+    {
+        if (_ignoreDisconnect)
         {
-            if (card.CardId == cardId)
-            {
-                return card;
-            }
+            _ignoreDisconnect = false;
+            return;
         }
 
-        return null;
+        _disconnectPopup.Show();
     }
 
     private void HandlePacketReceived(NetworkPacket packet)
@@ -107,6 +114,19 @@ public class GameplaySyncController : MonoBehaviour
                 HandleDisconnect();
                 break;
         }
+    }
+
+    private CardData GetCardById(int cardId)
+    {
+        foreach (CardData card in _cardDatabase.Cards)
+        {
+            if (card.CardId == cardId)
+            {
+                return card;
+            }
+        }
+
+        return null;
     }
 
     private void HandleSelectCard(NetworkPacket packet)
@@ -206,13 +226,22 @@ public class GameplaySyncController : MonoBehaviour
     public void SendDisconnect()
     {
         NetworkManager.Instance.Send(NetworkCommand.Disconnect);
+        CleanupNetwork();
         SceneManager.LoadScene("BattleMenu");
     }
 
     private void ExitGame()
     {
-        NetworkManager.Instance.Disconnect();
+        CleanupNetwork();
         _gameResultPanel.Back();
+    }
+
+    private void CleanupNetwork()
+    {
+        LanDiscovery.Instance.StopListening();
+        LanDiscovery.Instance.StopDiscovery();
+        NetworkManager.Instance.Disconnect();
+        NetworkSession.Role = PlayerRole.None;
     }
 
     private void PlayOpponentReplaceAnimation(int slotIndex, CardData card)
@@ -299,6 +328,7 @@ public class GameplaySyncController : MonoBehaviour
             return;
         }
 
+        AudioManager.Instance.PlaySfx(GameSfx.Message);
         _opponentMessageDisplay.Show(GameplayMessage.OpponentDraw);
         StartCoroutine(
             _drawAnimationService.PlayDraw(
@@ -324,6 +354,7 @@ public class GameplaySyncController : MonoBehaviour
         }
 
         CardData oldCard = _opponentPlayer.HandManager.Hand[slotIndex];
+        AudioManager.Instance.PlaySfx(GameSfx.Message);
         _opponentMessageDisplay.Show(GameplayMessage.OpponentDraw);
         PlayOpponentReplaceAnimation(
             slotIndex,
@@ -375,6 +406,7 @@ public class GameplaySyncController : MonoBehaviour
 
     private void PlayOpponentHeal(NetworkPacket packet)
     {
+        AudioManager.Instance.PlaySfx(GameSfx.Message);
         _opponentMessageDisplay.Show(GameplayMessage.OpponentHeal);
     }
 
