@@ -191,9 +191,9 @@ UDP Broadcast allows players connected to the same local network to discover an 
 ## 📸 Screenshots
 
 ```markdown
-![Main Menu](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/6f4d333fb62a82b4b7577c73d20c54956f604c2d/WhatsApp%20Image%202026-08-11%20at%2015.57.40.jpeg)
-![Card Battle](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/6f4d333fb62a82b4b7577c73d20c54956f604c2d/WhatsApp%20Image%202026-08-11%20at%2015.57.42%20(1).jpeg)
-![Player vs Player](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/6f4d333fb62a82b4b7577c73d20c54956f604c2d/WhatsApp%20Image%202026-08-11%20at%2015.55.53.jpeg)
+![image alt](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/6f4d333fb62a82b4b7577c73d20c54956f604c2d/WhatsApp%20Image%202026-08-11%20at%2015.57.40.jpeg)
+![image alt](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/6f4d333fb62a82b4b7577c73d20c54956f604c2d/WhatsApp%20Image%202026-08-11%20at%2015.57.42%20(1).jpeg)
+![image alt](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/6f4d333fb62a82b4b7577c73d20c54956f604c2d/WhatsApp%20Image%202026-08-11%20at%2015.55.53.jpeg)
 ```
 
 ## 🎮 Game Information
