@@ -4,6 +4,19 @@
 
 The game features both **Player vs Computer (PvC)** and **Player vs Player (PvP)** modes. PvP allows two players to connect through the same local network and battle against each other.
 
+## 📥 Download
+
+### [⬇️ Download Latest Release](../../releases/latest)
+
+Download the latest Android version of **Pertandingan Bilangan** from the GitHub Releases page.
+
+> **Platform:** Android
+> **Latest Version:** v1.0.0
+
+For installation, download the `.apk` file from the **Assets** section of the latest release and install it on your Android device.
+
+---
+
 ## 🎮 Features
 
 * 🃏 **Card Battle System**
@@ -91,9 +104,10 @@ The game has also been tested during development using Windows builds for multip
 
 ### Playing the Game
 
-1. Download the latest build from the project's release/download page.
-2. Install the APK on an Android device.
-3. Launch **Pertandingan Bilangan**.
+1. Go to the [Latest Release](../../releases/latest).
+2. Download the `.apk` file from the **Assets** section.
+3. Install the APK on your Android device.
+4. Launch **Pertandingan Bilangan**.
 
 For **Player vs Player**:
 
@@ -171,8 +185,10 @@ Assets/
 │        ├── UI/
 │   ├── Player/
 │   └── UI/
+├── Settings/
 ├── Sprites/
 │        ├── Card/
+└── ...
 ```
 
 The exact folder structure may vary depending on the current version of the project.
@@ -190,17 +206,21 @@ UDP Broadcast allows players connected to the same local network to discover an 
 
 ## 📸 Screenshots
 
+```markdown
 ![image](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/6f4d333fb62a82b4b7577c73d20c54956f604c2d/WhatsApp%20Image%202026-08-11%20at%2015.57.40.jpeg)
 ![image](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/6f4d333fb62a82b4b7577c73d20c54956f604c2d/WhatsApp%20Image%202026-08-11%20at%2015.57.42%20(1).jpeg)
 ![image](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/6f4d333fb62a82b4b7577c73d20c54956f604c2d/WhatsApp%20Image%202026-08-11%20at%2015.55.53.jpeg)
+```
 
 ## 🎮 Game Information
 
-**Title:** Pertandingan Bilangan
-**Genre:** Educational / Card Battle
-**Platform:** Android
-**Game Modes:** Player vs Computer, Player vs Player
-**Multiplayer:** Local Network (LAN)
+|                 |                                      |
+| --------------- | ------------------------------------ |
+| **Title**       | Pertandingan Bilangan                |
+| **Genre**       | Educational / Card Battle            |
+| **Platform**    | Android                              |
+| **Game Modes**  | Player vs Computer, Player vs Player |
+| **Multiplayer** | Local Network (LAN)                  |
 
 ## 📄 License
 
