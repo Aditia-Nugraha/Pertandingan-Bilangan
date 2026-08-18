@@ -4,19 +4,6 @@
 
 The game features both **Player vs Computer (PvC)** and **Player vs Player (PvP)** modes. PvP allows two players to connect through the same local network and battle against each other.
 
-## 📥 Download
-
-### [⬇️ Download Latest Release](../../releases/latest)
-
-Download the latest Android version of **Pertandingan Bilangan** from the GitHub Releases page.
-
-> **Platform:** Android
-> **Latest Version:** v1.0.0
-
-For installation, download the `.apk` file from the **Assets** section of the latest release and install it on your Android device.
-
----
-
 ## 🎮 Features
 
 * 🃏 **Card Battle System**
@@ -81,6 +68,19 @@ Play against a computer-controlled opponent. The computer makes its decisions au
 Play against another player over a **local network (LAN)**.
 
 The game uses automatic LAN discovery, so players on the same network can find each other without manually entering the host's IP address.
+
+## 📥 Download
+
+### [⬇️ Download Latest Release](../../releases/latest)
+
+Download the latest Android version of **Pertandingan Bilangan** from the GitHub Releases page.
+
+> **Platform:** Android
+> **Latest Version:** v1.0.0
+
+For installation, download the `.apk` file from the **Assets** section of the latest release and install it on your Android device.
+
+---
 
 ## 🛠️ Built With
 
