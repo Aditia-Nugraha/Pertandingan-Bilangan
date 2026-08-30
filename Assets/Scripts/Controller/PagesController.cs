@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HowToPlayController : MonoBehaviour
+public class PagesController : MonoBehaviour
 {
     [Header("Pages")]
     [SerializeField] private Image _pageImage;

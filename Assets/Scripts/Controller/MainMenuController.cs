@@ -21,6 +21,11 @@ public class MainMenuController : MonoBehaviour
         _howToPlayPanel.SetActive(true);
     }
 
+    public void Learn()
+    {
+        SceneManager.LoadScene("LearningMenu");
+    }
+
     public void OpenSettings()
     {
         CloseAllPopups();
