@@ -15,6 +15,7 @@ public class GameResultPanel : MonoBehaviour
     [SerializeField] private Image _resultPanel;
     [SerializeField] private Image _resultIcon;
     [SerializeField] private TMP_Text _playerNameText;
+    [SerializeField] private TMP_Text _scoreText;
     [SerializeField] private TMP_Text _resultText;
 
     [Header("Sprite")]
@@ -26,7 +27,7 @@ public class GameResultPanel : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private ScalePanelAnimator _panelAnimator;
 
-    public void Show(MatchResult result)
+    public void Show(MatchResult result, int score)
     {
         _container.SetActive(true);
         _background.SetActive(true);
@@ -39,6 +40,8 @@ public class GameResultPanel : MonoBehaviour
                 _resultPanel.sprite = _winPanelSprite;
                 _resultText.text = "Menang!";
                 _resultIcon.sprite = _winIconSprite;
+                _scoreText.gameObject.SetActive(true);
+                _scoreText.text = $"Skor: +{score}";
                 AudioManager.Instance.PlaySfx(GameSfx.GameWin);
                 AudioManager.Instance.PauseMusic();
                 break;
@@ -47,6 +50,7 @@ public class GameResultPanel : MonoBehaviour
                 _resultPanel.sprite = _losePanelSprite;
                 _resultText.text = "Kalah...";
                 _resultIcon.sprite = _loseIconSprite;
+                _scoreText.gameObject.SetActive(false);
                 AudioManager.Instance.PlaySfx(GameSfx.GameLose);
                 AudioManager.Instance.PauseMusic();
                 break;

@@ -8,12 +8,12 @@ public static class NetworkSession
     public static int MatchSeed;
 
     public static void Reset()
-{
-    Connected = false;
-    Role = PlayerRole.Host;
-    LocalPlayer = PlayerSide.Player1;
-    LocalPlayerName = string.Empty;
-    RemotePlayerName = string.Empty;
-    MatchSeed = 0;
-}
+    {
+        Connected = false;
+        Role = PlayerRole.Host;
+        LocalPlayer = PlayerSide.Player1;
+        LocalPlayerName = string.Empty;
+        RemotePlayerName = string.Empty;
+        MatchSeed = 0;
+    }
 }

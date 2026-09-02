@@ -15,6 +15,9 @@ public class BattleResultPanel : MonoBehaviour
     [Header("Gameplay State")]
     [SerializeField] private GameplayStateManager _stateManager;
 
+    [Header("Score")]
+    [SerializeField] private PersonalScoreManager _personalScoreManager;
+
     [Header("Battle Manager")]
     [SerializeField] private BattleManager _battleManager;
 
@@ -329,7 +332,20 @@ public class BattleResultPanel : MonoBehaviour
     {
         Hide();
         yield return new WaitForSeconds(1f);
-        _gameResultPanel.Show(GetMatchResult());
+        MatchResult result = GetMatchResult();
+        int score = 0;
+
+        if (result == MatchResult.Win)
+        {
+            score = _player1.Status.HP;
+            _personalScoreManager.AddWin(score);
+        }
+        else
+        {
+            _personalScoreManager.AddLose();
+        }
+
+        _gameResultPanel.Show(result, score);
     }
 
     public GameSfx GetBattleResultSfx()
