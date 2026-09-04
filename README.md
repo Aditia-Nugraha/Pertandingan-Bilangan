@@ -38,8 +38,27 @@ The game features both **Player vs Computer (PvC)** and **Player vs Player (PvP)
 * 🌐 **LAN Discovery**
   Automatically discover available players on the same local network without manually entering an IP address.
 
+* 📚 **Learning Materials**
+  Provides learning materials related to:
+
+  * Fractions
+  * Decimals
+  * Percentages
+  * Visual fractions
+
+  The materials help players understand the number concepts used in the game before or during gameplay.
+
 * 🏆 **Battle Result System**
   View the result of each battle and the final outcome of the match.
+
+* ⭐ **Personal Score**
+  Keep track of personal battle achievements, including:
+
+  * Win count
+  * Lose count
+  * Total score
+
+  Score is earned when winning a match based on the player's remaining HP. The score is stored locally on the device using Unity's `PlayerPrefs`.
 
 * 🔁 **Rematch**
   Start another match with the same opponent after finishing a battle.
@@ -55,6 +74,8 @@ During a battle, both players select one card. The selected cards are revealed a
 
 The player with the higher value gains the advantage of the round. Players can also use actions such as **Draw**, **Replace**, and **Heal** to manage their hand and resources.
 
+At the end of a match, the winning player earns a score based on their remaining HP. The personal score consists of the number of wins, number of losses, and accumulated score.
+
 Choose your cards carefully and use your resources wisely to defeat your opponent.
 
 ## 🕹️ Game Modes
@@ -69,6 +90,35 @@ Play against another player over a **local network (LAN)**.
 
 The game uses automatic LAN discovery, so players on the same network can find each other without manually entering the host's IP address.
 
+## 📚 Learning Materials
+
+The game provides learning materials covering the number concepts used throughout the card battle system:
+
+* **Fractions**
+* **Decimals**
+* **Percentages**
+* **Visual fractions**
+
+These materials are intended to help players understand the concepts before applying them through gameplay.
+
+## 🏆 Personal Score
+
+The game includes a **Personal Score** system to record the player's individual battle achievements.
+
+The system stores:
+
+* **Win Count** — total number of matches won.
+* **Lose Count** — total number of matches lost.
+* **Total Score** — accumulated score from all victories.
+
+The score earned from a victory is equal to the player's **remaining HP at the end of the match**.
+
+Losing a match only increases the **Lose Count** and does not reduce the accumulated score.
+
+Personal Score is stored locally on each device using Unity's `PlayerPrefs`. It is not a global leaderboard and is not synchronized between multiplayer devices.
+
+---
+
 ## 📥 Download
 
 ### [⬇️ Download Latest Release](../../releases/latest)
@@ -76,7 +126,7 @@ The game uses automatic LAN discovery, so players on the same network can find e
 Download the latest Android version of **Pertandingan Bilangan** from the GitHub Releases page.
 
 > **Platform:** Android
-> **Latest Version:** v1.0.0
+> **Latest Version:** v1.1.0
 
 For installation, download the `.apk` file from the **Assets** section of the latest release and install it on your Android device.
 
@@ -91,6 +141,7 @@ For installation, download the `.apk` file from the **Assets** section of the la
 * **TCP Networking**
 * **UDP Broadcast**
 * **ScriptableObject**
+* **PlayerPrefs**
 
 ## 📱 Platform
 
@@ -184,6 +235,7 @@ Assets/
 │        ├── Session/
 │        ├── UI/
 │   ├── Player/
+│   ├── Score/
 │   └── UI/
 ├── Settings/
 ├── Sprites/
@@ -206,19 +258,21 @@ UDP Broadcast allows players connected to the same local network to discover an 
 
 ## 📸 Screenshots
 
-![image](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/6f4d333fb62a82b4b7577c73d20c54956f604c2d/WhatsApp%20Image%202026-08-11%20at%2015.57.40.jpeg)
-![image](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/6f4d333fb62a82b4b7577c73d20c54956f604c2d/WhatsApp%20Image%202026-08-11%20at%2015.57.42%20(1).jpeg)
-![image](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/6f4d333fb62a82b4b7577c73d20c54956f604c2d/WhatsApp%20Image%202026-08-11%20at%2015.55.53.jpeg)
+![image](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/4df80744ea506f4979b0886f91f6ea50a57712db/Screenshot/WhatsApp%20Image%202026-09-03%20at%2010.01.17.jpeg)
+![image](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/4df80744ea506f4979b0886f91f6ea50a57712db/Screenshot/WhatsApp%20Image%202026-09-03%20at%2010.01.16%20(1).jpeg)
+![image](https://github.com/Aditia-Nugraha/Pertandingan-Bilangan/blob/4df80744ea506f4979b0886f91f6ea50a57712db/Screenshot/WhatsApp%20Image%202026-08-11%20at%2015.55.53.jpeg)
 
 ## 🎮 Game Information
 
-|                 |                                      |
-| --------------- | ------------------------------------ |
-| **Title**       | Pertandingan Bilangan                |
-| **Genre**       | Educational / Card Battle            |
-| **Platform**    | Android                              |
-| **Game Modes**  | Player vs Computer, Player vs Player |
-| **Multiplayer** | Local Network (LAN)                  |
+|                        |                                      |
+| ---------------------- | ------------------------------------ |
+| **Title**              | Pertandingan Bilangan                |
+| **Genre**              | Educational / Card Battle            |
+| **Platform**           | Android                              |
+| **Game Modes**         | Player vs Computer, Player vs Player |
+| **Multiplayer**        | Local Network (LAN)                  |
+| **Learning Materials** | Fractions, Decimals, Percentages     |
+| **Personal Score**     | Win, Lose, Total Score               |
 
 ## 📄 License
 
