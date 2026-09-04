@@ -264,15 +264,15 @@ UDP Broadcast allows players connected to the same local network to discover an 
 
 ## 🎮 Game Information
 
-|                        |                                      |
-| ---------------------- | ------------------------------------ |
-| **Title**              | Pertandingan Bilangan                |
-| **Genre**              | Educational / Card Battle            |
-| **Platform**           | Android                              |
-| **Game Modes**         | Player vs Computer, Player vs Player |
-| **Multiplayer**        | Local Network (LAN)                  |
-| **Learning Materials** | Fractions, Decimals, Percentages     |
-| **Personal Score**     | Win, Lose, Total Score               |
+|                        |                                                    |
+| ---------------------- | ---------------------------------------------------|
+| **Title**              | Pertandingan Bilangan                              |
+| **Genre**              | Educational / Card Battle                          |
+| **Platform**           | Android                                            |
+| **Game Modes**         | Player vs Computer, Player vs Player               |
+| **Multiplayer**        | Local Network (LAN)                                |
+| **Learning Materials** | Fractions, Decimals, Percentages, Visual fractions |
+| **Personal Score**     | Win, Lose, Total Score                             |
 
 ## 📄 License
 
